@@ -1,6 +1,14 @@
 require('dotenv').config();
 const express = require('express');
+
+const handlebars = require('express-handlebars');
+
 const app = express();
+
+app.use(express.static('views'))
+app.engine('handlebars', handlebars.engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
 
 const {
     POSTGRES_DATABASE,
@@ -44,10 +52,13 @@ const sensor = sequelize.define('sensor', {
     },
 });
 
-sensor.sync({ force: true });
+sensor.sync();
 
-app.get('/', function (req, res) {
-    res.send('Projeto ESP');
+app.get('/', async function (req, res) {
+    const sensors = await sensor.findAll({
+        attributes: ['temperatura', 'umidade', 'createdAt'],
+    });
+    res.render('home', { sensors });
 });
 
 app.get('/cadastrar/:temperatura/:umidade', function (req, res) {

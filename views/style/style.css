@@ -1,0 +1,22 @@
+html {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #e0ffff;
+    padding: 2rem;
+}
+
+.container-grafico {
+    padding: 1.5rem;
+    height: 70%;
+}
+
+#dataChart {
+    max-height: 80%;
+    border: solid;
+    border-width: 0.5px;
+    border-radius: 10px;
+
+    padding: 1rem;
+}
