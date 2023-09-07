@@ -1,11 +1,29 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 
+const {
+    POSTGRES_DATABASE,
+    POSTGRES_USERNAME,
+    POSTGRES_PASSWORD,
+    POSTGRES_HOST,
+    POSTGRES_PORT,
+} = process.env;
+
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('projetoesp', 'pires', 'pirdo', {
-    hoot: '34.27.20.114',
-    port: '5432',
+const sequelize = new Sequelize({
+    database: `${POSTGRES_DATABASE}`,
+    username: `${POSTGRES_USERNAME}`,
+    password: `${POSTGRES_PASSWORD}`,
+    host: `${POSTGRES_HOST}`,
+    port: `${POSTGRES_PORT}`,
     dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
+        },
+    },
 });
 
 sequelize
