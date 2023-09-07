@@ -5,7 +5,7 @@ const handlebars = require('express-handlebars');
 
 const app = express();
 
-app.use(express.static('views'))
+app.use(express.static('views'));
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
@@ -70,6 +70,6 @@ app.get('/cadastrar/:temperatura/:umidade', function (req, res) {
     res.redirect('/');
 });
 
-app.listen(8081, function () {
+app.listen(8080, function () {
     console.log('Conexão do webserver Ok');
 });
