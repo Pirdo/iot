@@ -12,7 +12,7 @@ app.set('views', './views');
 
 const {
     POSTGRES_DATABASE,
-    POSTGRES_USERNAME,
+    POSTGRES_USER,
     POSTGRES_PASSWORD,
     POSTGRES_HOST,
     POSTGRES_PORT,
@@ -21,7 +21,7 @@ const {
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
     database: `${POSTGRES_DATABASE}`,
-    username: `${POSTGRES_USERNAME}`,
+    username: `${POSTGRES_USER}`,
     password: `${POSTGRES_PASSWORD}`,
     host: `${POSTGRES_HOST}`,
     port: `${POSTGRES_PORT}`,
