@@ -64,9 +64,9 @@ app.get('/', async function (req, res) {
     res.render(__dirname + '/views/home', { sensors });
 });
 
-app.get('/cadastrar/:temperatura/:umidade', function (req, res) {
+app.get('/cadastrar/:temperatura/:umidade', async function (req, res) {
     console.log(req.params);
-    sensor.create({
+    await sensor.create({
         temperatura: req.params.temperatura,
         umidade: req.params.umidade,
     });
