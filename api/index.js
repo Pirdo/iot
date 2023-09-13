@@ -8,7 +8,7 @@ const app = express();
 app.use(express.static('views'));
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
-app.set('views', './views');
+app.set('views', './api/views');
 
 const {
     POSTGRES_DATABASE,
