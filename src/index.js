@@ -10,7 +10,7 @@ const app = express();
 app.use(express.static(__dirname + '/views'));
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname + 'views'));
+app.set('views', path.join(__dirname + '/views'));
 
 const {
     POSTGRES_DATABASE,
@@ -60,10 +60,8 @@ app.get('/', async function (req, res) {
     const sensors = await sensor.findAll({
         attributes: ['temperatura', 'umidade', 'createdAt'],
     });
-    res.setHeader('Content-Type', 'text/html');
-    res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
 
-    res.render('home', { sensors });
+    res.render(__dirname + '/views/home', { sensors });
 });
 
 app.get('/cadastrar/:temperatura/:umidade', function (req, res) {
