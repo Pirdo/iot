@@ -58,6 +58,9 @@ app.get('/', async function (req, res) {
     const sensors = await sensor.findAll({
         attributes: ['temperatura', 'umidade', 'createdAt'],
     });
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+
     res.render('home', { sensors });
 });
 
