@@ -5,10 +5,10 @@ const handlebars = require('express-handlebars');
 
 const app = express();
 
-app.use(express.static('views'));
+app.use(express.static(__dirname + '/views'));
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
-app.set('views', './api/views');
+app.set('views', __dirname + '/views');
 
 const {
     POSTGRES_DATABASE,
