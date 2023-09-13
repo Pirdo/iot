@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-
 require('pg');
 const handlebars = require('express-handlebars');
 const path = require('path');
