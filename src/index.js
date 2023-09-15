@@ -54,7 +54,7 @@ const sensor = sequelize.define('sensor', {
     },
 });
 
-sensor.sync();
+sensor.sync({force: true});
 
 app.get('/', async function (req, res) {
     const sensors = await sensor.findAll({
