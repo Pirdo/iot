@@ -47,10 +47,10 @@ sequelize
 
 const sensor = sequelize.define('sensor', {
     temperatura: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.String,
     },
     umidade: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.String,
     },
 });
 
