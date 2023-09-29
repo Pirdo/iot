@@ -1,68 +1,68 @@
 #include <DHTesp.h>
-#include <MySQL_Connection.h>
-#include <MySQL_Cursor.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+#include <WiFiClient.h>
 
-#ifdef ESP32
-#pragma message(THIS EXAMPLE IS FOR ESP8266 ONLY!)
-#error Select ESP8266 board.
-#endif
 
-char ssid[] = "Pires";
-char password[] = "familia";
+char ssid[] = "Fatec111";
+char password[] = "123654789";
+char server[] = "https://iot-phi.vercel.app";
+int serverPort = 8080;
 
-IPAddress server_addr(localhost);
-char user[] = "root";
-char password_db[] = "";
-char db_name[] = "IOT_SENSOR";
+const char* http_site = "iot-phi.vercel.app";
+const int http_port = 443;
+const char* http_path = "/cadastrar"; 
+
 
 DHTesp dht;
-WiFiClient client;
-MySQL_Connection conn((Client *)&client);
 
-void setup()
-{
+
+void setup() {
   Serial.begin(115200);
   Serial.println();
-  
+
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Conectando no WiFi...");
   }
-  
+
   Serial.println("WiFi conectado!");
 
   dht.setup(3, DHTesp::DHT11);
-  
-  Serial.println("Conectando ao banco de dados");
-  if (conn.connect(server_addr, 3306, user, password_db)) {
-    Serial.println("Banco de dados conectado");
-  } else {
-    Serial.println("Erro na conexão ao banco de dados");
-    while (1);
-  }
 }
 
-void loop()
-{
+void loop() {
+  WiFiClientSecure client;
+  client.setInsecure();
+
   delay(dht.getMinimumSamplingPeriod());
 
-  float humidity = dht.getHumidity();
-  float temperature = dht.getTemperature();
+  float umidade = dht.getHumidity();
+  float temperatura = dht.getTemperature();
 
-  Serial.print("Humidity: ");
-  Serial.print(humidity, 1);
-  Serial.print("%\tTemperature: ");
-  Serial.print(temperature, 1);
+  Serial.print("Umidade: ");
+  Serial.print(umidade, 1);
+  Serial.print("%\tTemperatura: ");
+  Serial.print(temperatura, 1);
   Serial.println("°C");
-  
-  char query[128];
-  sprintf(query, "INSERT INTO DADOS (humidade, temperatura) VALUES (%.1f, %.1f)", humidity, temperature);
-  Serial.println(query);
-  
-  MySQL_Cursor * cur_mem = new MySQL_Cursor(&conn);
-  cur_mem->execute(query);
-  delete cur_mem;
 
-  delay(5000);
+  String url = "https://" + String(http_site) + http_path + "/" + String(temperatura) + "/" + String(umidade);
+
+  Serial.println("fazendo request");
+  Serial.println(url);
+
+  if (!client.connect(http_site, http_port)) {
+    Serial.println("Falha na conexão com o servidor");
+    delay(5000);
+    return;
+  }
+
+   client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + http_site + "\r\n" + "Connection: close\r\n\r\n");
+ 
+    client.stop();
+
+  delay(5000);  //teste
+
+  //delay(36000); produção
 }
